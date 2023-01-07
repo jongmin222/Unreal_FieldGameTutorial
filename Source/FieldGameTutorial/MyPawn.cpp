@@ -2,6 +2,8 @@
 
 #include "MyPawn.h"
 #include "Camera/CameraComponent.h"
+#include "Components/StaticMeshComponent.h"
+#include "Components/InputComponent.h"
 
 // Sets default values
 AMyPawn::AMyPawn()
@@ -36,6 +38,28 @@ void AMyPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	{
+		float CurrentScale = OurVisibleComponent->GetComponentScale().X;
+		if (bGrowing)
+		{
+			CurrentScale += DeltaTime;
+		}
+		else
+		{
+			CurrentScale -= (DeltaTime * 0.5f);
+		}
+
+		CurrentScale = FMath::Clamp(CurrentScale, 1.0f, 2.0f);
+		OurVisibleComponent->SetWorldScale3D(FVector(CurrentScale));
+	}
+
+	{
+		if (!CurrentVelocity.IsZero())
+		{
+			FVector NewLocation = GetActorLocation() + (CurrentVelocity * DeltaTime);
+			SetActorLocation(NewLocation);
+		}
+	}
 }
 
 // Called to bind functionality to input
@@ -43,5 +67,29 @@ void AMyPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	PlayerInputComponent->BindAction("Grow", IE_Pressed, this, &AMyPawn::StartGrowing);
+	PlayerInputComponent->BindAction("Grow", IE_Released, this, &AMyPawn::StopGrowing);
+
+	InputComponent->BindAxis("MoveX", this, &AMyPawn::Move_XAxis);
+	InputComponent->BindAxis("MoveY", this, &AMyPawn::Move_YAxis);
 }
 
+void AMyPawn::Move_XAxis(float AxisValue)
+{
+	CurrentVelocity.X  = FMath::Clamp(AxisValue, -1.0f, 1.0f) * 100.0f;
+}
+
+void AMyPawn::Move_YAxis(float AxisValue)
+{
+	CurrentVelocity.Y = FMath::Clamp(AxisValue, -1.0f, 1.0f) * 100.0f;
+}
+
+void AMyPawn::StartGrowing()
+{
+	bGrowing = true;
+}
+
+void AMyPawn::StopGrowing()
+{
+	bGrowing = false;
+}
