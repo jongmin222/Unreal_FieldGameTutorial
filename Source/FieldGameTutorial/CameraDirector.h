@@ -23,6 +23,9 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	// Called to bind functionality to input
+	//virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
 private:
 	UPROPERTY(EditAnywhere)
 		TArray<AActor*> Cameras;
@@ -31,4 +34,6 @@ private:
 		float TimeToNextCameraChange;
 	const float TimeBetweenCameraChanges = 2.0f;
 	const float SmoothBlendTime = 0.75f;
+
+	void Switch();
 };

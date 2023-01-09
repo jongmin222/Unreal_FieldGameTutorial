@@ -29,9 +29,10 @@ private:
 
 	void AdvanceTimer();
 
-	UFUNCTION(BlueprintNativeEvent)
-	void CountdownHasFinished();
-	virtual void CountdownHasFinished_Immplementation();
-
 	FTimerHandle CountdownTimerHandle;
+
+public:
+	UFUNCTION(BlueprintNativeEvent)
+		void CountdownHasFinished();
+	virtual void CountdownHasFinished_Implementation();
 };

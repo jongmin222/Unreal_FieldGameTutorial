@@ -3,13 +3,13 @@
 
 #include "CameraDirector.h"
 #include "Kismet/GameplayStatics.h"
+#include "Components/InputComponent.h"
 
 // Sets default values
 ACameraDirector::ACameraDirector()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
-
+	PrimaryActorTick.bCanEverTick = true;	
 }
 
 // Called when the game starts or when spawned
@@ -59,3 +59,14 @@ void ACameraDirector::Tick(float DeltaTime)
 	}
 }
 
+//void ACameraDirector::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+//{
+//	Super::SetupPlayerInputComponent(PlayerInputComponent);
+//
+//	InputComponent->BindAction("SwitchCamera", this, &ACameraDirector::Switch);
+//}
+
+void ACameraDirector::Switch()
+{
+
+}
