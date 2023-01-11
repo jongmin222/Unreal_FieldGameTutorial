@@ -35,12 +35,14 @@ public:
 		class USphereComponent* SphereComponent;
 
 	class UCollidingPawnMovementComponent* OurMovementComponent;
-
+	class USpringArmComponent* SpringArm;
 	void MoveForward(float AxisValue);
 	void MoveRight(float AxisValue);
 	void Turn(float AxisValue);
 	void LookUp(float AxisValue);
 	void ParticleToggle();
-
+	UPROPERTY(EditAnywhere)
+		float MoveSpeed;
+	FVector2D MovementInput;
 	FVector2D CameraInput;
 };

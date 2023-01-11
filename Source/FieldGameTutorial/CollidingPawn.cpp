@@ -42,7 +42,7 @@ ACollidingPawn::ACollidingPawn()
 		OurParticleSystem->SetTemplate(ParticleAsset.Object);
 	}
 
-	USpringArmComponent* SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraAttachmentArm"));
+	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraAttachmentArm"));
 	SpringArm->SetupAttachment(RootComponent);
 	SpringArm->SetRelativeRotation(FRotator(-45.0f, 0.0f, 0.0f));
 	SpringArm->TargetArmLength = 400.0f;
@@ -70,6 +70,27 @@ void ACollidingPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	GEngine->AddOnScreenDebugMessage(0, 2.0f, FColor::Green, FString::Printf(TEXT("FPS : %f"), 1.0 / DeltaTime));
+	{
+		FRotator NewRotation = GetActorRotation();
+		NewRotation.Yaw += CameraInput.X;
+		SetActorRotation(NewRotation);
+	}
+	{
+		FRotator NewRotation = SpringArm->GetComponentRotation();
+		NewRotation.Pitch = FMath::Clamp(NewRotation.Pitch + CameraInput.Y, -80.0f, -15.0f);
+		SpringArm->SetWorldRotation(NewRotation);
+	}
+	{
+		if (!MovementInput.IsZero())
+		{
+			//이동 입력 축 값에 초당 100 유닛 스케일을 적용합니다
+			MovementInput = MovementInput.GetSafeNormal() * 100.0f * MoveSpeed;
+			FVector NewLocation = GetActorLocation();
+			NewLocation += GetActorForwardVector() * MovementInput.X * DeltaTime;
+			NewLocation += GetActorRightVector() * MovementInput.Y * DeltaTime;
+			SetActorLocation(NewLocation);
+		}
+	}
 }
 
 // Called to bind functionality to input
@@ -91,32 +112,29 @@ UPawnMovementComponent * ACollidingPawn::GetMovementComponent() const
 
 void ACollidingPawn::MoveForward(float AxisValue)
 {
-	if (OurMovementComponent && OurMovementComponent->UpdatedComponent == RootComponent)
-	{
-		OurMovementComponent->AddInputVector(GetActorForwardVector() * AxisValue);
-	}
+	//if (OurMovementComponent && OurMovementComponent->UpdatedComponent == RootComponent)
+		//OurMovementComponent->AddInputVector(GetActorForwardVector() * AxisValue);
+	MovementInput.X = FMath::Clamp(AxisValue, -1.0f, 1.0f);
 }
 
 void ACollidingPawn::MoveRight(float AxisValue)
 {
-	if (OurMovementComponent && OurMovementComponent->UpdatedComponent == RootComponent)
-	{
-		OurMovementComponent->AddInputVector(GetActorRightVector() * AxisValue);
-	}
+	//if (OurMovementComponent && OurMovementComponent->UpdatedComponent == RootComponent)
+		//OurMovementComponent->AddInputVector(GetActorRightVector() * AxisValue);
+	MovementInput.Y = FMath::Clamp(AxisValue, -1.0f, 1.0f);
 }
 
 void ACollidingPawn::Turn(float AxisValue)
 {
-	FRotator NewRotation = GetActorRotation();
-	NewRotation.Yaw += AxisValue;
-	SetActorRotation(NewRotation);
+	//FRotator NewRotation = GetActorRotation();
+	//NewRotation.Yaw += AxisValue;
+	//SetActorRotation(NewRotation);
+	CameraInput.X = AxisValue;
 }
 
 void ACollidingPawn::LookUp(float AxisValue)
 {
-	FRotator NewRotation = GetActorRotation();
-	NewRotation.Pitch += AxisValue;
-	SetActorRotation(NewRotation);
+	CameraInput.Y = -AxisValue;
 }
 
 void ACollidingPawn::ParticleToggle()

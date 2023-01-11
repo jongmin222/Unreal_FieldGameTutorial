@@ -3,6 +3,7 @@
 #include "FieldGameTutorialGameMode.h"
 #include "FieldGameTutorialCharacter.h"
 #include "UObject/ConstructorHelpers.h"
+#include <Blueprint/UserWidget.h>
 
 AFieldGameTutorialGameMode::AFieldGameTutorialGameMode()
 {
@@ -11,5 +12,29 @@ AFieldGameTutorialGameMode::AFieldGameTutorialGameMode()
 	if (PlayerPawnBPClass.Class != NULL)
 	{
 		DefaultPawnClass = PlayerPawnBPClass.Class;
+	}	
+}
+
+void AFieldGameTutorialGameMode::BeginPlay()
+{
+	Super::BeginPlay();
+	ChangeMenuWidget(StartingWidgetClass);
+}
+
+void AFieldGameTutorialGameMode::ChangeMenuWidget(TSubclassOf<UUserWidget> NewWidgetClass)
+{
+	if (CurrentWidget != nullptr)
+	{
+		CurrentWidget->RemoveFromViewport();
+		CurrentWidget = nullptr;	
+	}
+
+	if (NewWidgetClass != nullptr)
+	{
+		CurrentWidget = CreateWidget(GetWorld(), NewWidgetClass);
+		if (CurrentWidget != nullptr)
+		{
+			CurrentWidget->AddToViewport();		
+		}	
 	}
 }

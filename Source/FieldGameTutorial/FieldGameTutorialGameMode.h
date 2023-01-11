@@ -13,6 +13,17 @@ class AFieldGameTutorialGameMode : public AGameModeBase
 
 public:
 	AFieldGameTutorialGameMode();
+
+	UFUNCTION(BlueprintCallable, Category = "UMG_Game")
+		void ChangeMenuWidget(TSubclassOf<UUserWidget> NewWidgetClass);
+protected:
+	virtual void BeginPlay() override;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UMG_Game")
+		TSubclassOf<UUserWidget> StartingWidgetClass;
+
+	UPROPERTY()
+		UUserWidget* CurrentWidget;
 };
 
 
