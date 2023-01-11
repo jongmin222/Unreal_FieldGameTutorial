@@ -12,7 +12,7 @@ void UCollidingPawnMovementComponent::TickComponent(float DeltaTime, enum ELevel
 		return;
 	}
 
-	FVector DesiredMovementThisFrame = ConsumeInputVector().GetClampedToMaxSize(1.0f) * DeltaTime * 150.0f;
+	FVector DesiredMovementThisFrame = ConsumeInputVector().GetClampedToMaxSize(1.0f) * DeltaTime * 600.0f;
 	if (!DesiredMovementThisFrame.IsNearlyZero())
 	{
 		FHitResult Hit;

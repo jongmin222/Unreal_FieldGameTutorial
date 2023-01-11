@@ -2,14 +2,22 @@
 
 
 #include "CollidingPawn.h"
-
+#include "Components/SphereComponent.h"
+#include "Components/StaticMeshComponent.h"
+#include "Components/InputComponent.h"
+#include "Particles/ParticleSystemComponent.h"
+#include "Camera/CameraComponent.h"
+#include "GameFramework/SpringArmComponent.h"
+#include "CollidingPawnMovementComponent.h"
+#include "ConstructorHelpers.h"
+#include "Engine/Engine.h"
 // Sets default values
 ACollidingPawn::ACollidingPawn()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	USphereComponent* SphereComponent = CreateDefaultSubobject<USphereComponent>("RootComponent");
+	SphereComponent = CreateDefaultSubobject<USphereComponent>("RootComponent");
 	RootComponent = SphereComponent;
 	SphereComponent->InitSphereRadius(40.0f);
 	SphereComponent->SetCollisionProfileName(TEXT("Pawn"));
@@ -61,7 +69,7 @@ void ACollidingPawn::BeginPlay()
 void ACollidingPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	GEngine->AddOnScreenDebugMessage(0, 2.0f, FColor::Green, FString::Printf(TEXT("FPS : %f"), 1.0 / DeltaTime));
 }
 
 // Called to bind functionality to input
@@ -73,6 +81,7 @@ void ACollidingPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	InputComponent->BindAxis("MoveForward", this, &ACollidingPawn::MoveForward);
 	InputComponent->BindAxis("MoveRight", this, &ACollidingPawn::MoveRight);
 	InputComponent->BindAxis("Turn", this, &ACollidingPawn::Turn);
+	InputComponent->BindAxis("LookUp", this, &ACollidingPawn::LookUp);
 }
 
 UPawnMovementComponent * ACollidingPawn::GetMovementComponent() const
@@ -100,6 +109,13 @@ void ACollidingPawn::Turn(float AxisValue)
 {
 	FRotator NewRotation = GetActorRotation();
 	NewRotation.Yaw += AxisValue;
+	SetActorRotation(NewRotation);
+}
+
+void ACollidingPawn::LookUp(float AxisValue)
+{
+	FRotator NewRotation = GetActorRotation();
+	NewRotation.Pitch += AxisValue;
 	SetActorRotation(NewRotation);
 }
 

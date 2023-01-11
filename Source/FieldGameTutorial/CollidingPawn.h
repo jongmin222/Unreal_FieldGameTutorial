@@ -4,14 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
-#include "Components/SphereComponent.h"
-#include "Components/StaticMeshComponent.h"
-#include "Components/InputComponent.h"
-#include "Particles/ParticleSystemComponent.h"
-#include "Camera/CameraComponent.h"
-#include "GameFramework/SpringArmComponent.h"
-#include "CollidingPawnMovementComponent.h"
-#include "ConstructorHelpers.h"
 #include "CollidingPawn.generated.h"
 
 UCLASS()
@@ -36,13 +28,19 @@ public:
 
 	virtual UPawnMovementComponent* GetMovementComponent() const override;
 	UPROPERTY(EditAnywhere)
-		UParticleSystemComponent* OurParticleSystem;
+		class UParticleSystemComponent* OurParticleSystem;
 	UPROPERTY(EditAnywhere)
-		UStaticMeshComponent* SphereVisual;
+		class UStaticMeshComponent* SphereVisual;
+	UPROPERTY(EditAnywhere)
+		class USphereComponent* SphereComponent;
+
 	class UCollidingPawnMovementComponent* OurMovementComponent;
 
 	void MoveForward(float AxisValue);
 	void MoveRight(float AxisValue);
 	void Turn(float AxisValue);
+	void LookUp(float AxisValue);
 	void ParticleToggle();
+
+	FVector2D CameraInput;
 };

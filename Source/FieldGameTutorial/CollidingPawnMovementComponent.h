@@ -13,7 +13,8 @@ UCLASS()
 class FIELDGAMETUTORIAL_API UCollidingPawnMovementComponent : public UPawnMovementComponent
 {
 	GENERATED_BODY()
-	
+private:
+	float MoveSpeed = 0.0f;
 public:
 	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 };
