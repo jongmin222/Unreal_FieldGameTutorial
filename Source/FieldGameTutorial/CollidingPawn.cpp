@@ -85,10 +85,15 @@ void ACollidingPawn::Tick(float DeltaTime)
 		{
 			//이동 입력 축 값에 초당 100 유닛 스케일을 적용합니다
 			MovementInput = MovementInput.GetSafeNormal() * 100.0f * MoveSpeed;
-			FVector NewLocation = GetActorLocation();
-			NewLocation += GetActorForwardVector() * MovementInput.X * DeltaTime;
-			NewLocation += GetActorRightVector() * MovementInput.Y * DeltaTime;
-			SetActorLocation(NewLocation);
+			//FVector NewLocation = GetActorLocation();
+			//NewLocation += GetActorForwardVector() * MovementInput.X * DeltaTime;
+			//NewLocation += GetActorRightVector() * MovementInput.Y * DeltaTime;
+			//SetActorLocation(NewLocation);
+			if (OurMovementComponent && OurMovementComponent->UpdatedComponent == RootComponent)
+			{
+				OurMovementComponent->AddInputVector(GetActorForwardVector() * MovementInput.X * DeltaTime);
+				OurMovementComponent->AddInputVector(GetActorRightVector() * MovementInput.Y * DeltaTime);
+			}
 		}
 	}
 }
