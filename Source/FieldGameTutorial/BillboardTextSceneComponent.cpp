@@ -17,7 +17,7 @@ UBillboardTextSceneComponent::UBillboardTextSceneComponent()
 	Text->SetHorizontalAlignment(EHTA_Center);
 	Text->SetText(TEXT("Billboard"));
 
-	Text->SetRelativeLocation(FVector(0.0f, 0.0f, 150.0f));
+	
 	Text->SetWorldSize(150.0f);
 }
 
@@ -27,7 +27,7 @@ void UBillboardTextSceneComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	camManager = GetWorld()->GetFirstPlayerController()->PlayerCameraManager;
+	camManager = GetWorld()->GetFirstPlayerController()->PlayerCameraManager;	
 }
 
 
@@ -35,12 +35,13 @@ void UBillboardTextSceneComponent::BeginPlay()
 void UBillboardTextSceneComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
+	Location = Text->GetOwner()->GetActorLocation();
+	Text->SetWorldLocation(Location + FVector(0.0f, 0.0f, 100.0f));
+	
 	if (camManager != nullptr)
 	{
 		Rotator = camManager->GetCameraRotation();
 		Text->SetWorldRotation(FRotator(0, 180.0f+Rotator.Yaw, 0));
-		UE_LOG(LogTemp, Log, TEXT("%f, %f, %f"), Rotator.Pitch, Rotator.Yaw, Rotator.Roll);
 	}
 }
 

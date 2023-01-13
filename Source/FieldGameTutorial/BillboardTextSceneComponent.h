@@ -31,4 +31,7 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	FRotator Rotator;
+
+	UPROPERTY(VisibleAnywhere)
+	FVector Location;
 };
