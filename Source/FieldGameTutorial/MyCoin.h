@@ -4,26 +4,23 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Coin.generated.h"
+#include "MyCoin.generated.h"
 
 UCLASS()
-class FIELDGAMETUTORIAL_API ACoin : public AActor
+class FIELDGAMETUTORIAL_API AMyCoin : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	ACoin();
+	AMyCoin();
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
 
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(EditAnywhere)
-		class UStaticMeshComponent* Mesh;
 };

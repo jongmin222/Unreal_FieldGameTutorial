@@ -3,7 +3,8 @@
 
 #include "Coin.h"
 #include "ConstructorHelpers.h"
-
+#include "CollidingPawn.h"
+#include "Components/StaticMeshComponent.h"
 // Sets default values
 ACoin::ACoin()
 {
@@ -16,6 +17,7 @@ ACoin::ACoin()
 	{
 		Mesh->SetStaticMesh(MeshAsset.Object);
 	}
+	//Mesh->bGenerateOverlapEvents = true;
 	RootComponent = Mesh;
 }
 
@@ -24,6 +26,16 @@ void ACoin::BeginPlay()
 {
 	Super::BeginPlay();
 	
+}
+
+void ACoin::NotifyActorBeginOverlap(AActor * OtherActor)
+{
+	ACollidingPawn* Pawn = Cast<ACollidingPawn>(OtherActor);
+	if (Pawn != nullptr)
+	{
+		UE_LOG(LogTemp, Log, TEXT("overlap !!"));
+
+	}
 }
 
 // Called every frame

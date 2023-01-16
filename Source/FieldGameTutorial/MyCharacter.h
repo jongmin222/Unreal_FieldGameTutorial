@@ -3,17 +3,17 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Actor.h"
-#include "Coin.generated.h"
+#include "GameFramework/Character.h"
+#include "MyCharacter.generated.h"
 
 UCLASS()
-class FIELDGAMETUTORIAL_API ACoin : public AActor
+class FIELDGAMETUTORIAL_API AMyCharacter : public ACharacter
 {
 	GENERATED_BODY()
-	
-public:	
-	// Sets default values for this actor's properties
-	ACoin();
+
+public:
+	// Sets default values for this character's properties
+	AMyCharacter();
 
 protected:
 	// Called when the game starts or when spawned
@@ -24,6 +24,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(EditAnywhere)
-		class UStaticMeshComponent* Mesh;
+	// Called to bind functionality to input
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
 };

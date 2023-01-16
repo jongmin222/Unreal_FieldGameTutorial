@@ -25,9 +25,9 @@ public:
 
 
 	UPROPERTY(EditAnywhere)
-		TSubclassOf<class ACoin> Coin;
-	//UPROPERTY(VisibleAnywhere)
-		//TArray<ACoin> Coins;
+		TSubclassOf<class AMyCoin> Coin;
+		
+
 	FTimerHandle SpawnTimerHandle;
 
 	FVector SpawnLocation;

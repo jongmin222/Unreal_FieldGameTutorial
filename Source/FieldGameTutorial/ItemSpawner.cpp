@@ -4,7 +4,7 @@
 #include "ItemSpawner.h"
 #include "TimerManager.h"
 #include "Engine/World.h"
-#include "Coin.h"
+#include "MyCoin.h"
 // Sets default values
 AItemSpawner::AItemSpawner()
 {
@@ -22,7 +22,7 @@ void AItemSpawner::BeginPlay()
 
 	SpawnRotation = GetActorRotation();
 
-	GetWorldTimerManager().SetTimer(SpawnTimerHandle, this, &AItemSpawner::SpawnItem, 5.0f, true);
+	GetWorldTimerManager().SetTimer(SpawnTimerHandle, this, &AItemSpawner::SpawnItem, 3.0f, true);
 }
 
 // Called every frame
@@ -35,9 +35,9 @@ void AItemSpawner::Tick(float DeltaTime)
 void AItemSpawner::SpawnItem()
 {
 	SpawnLocation = GetActorLocation();
-	SpawnLocation.X += FMath::RandRange(500.0f, -500.0f);
-	SpawnLocation.Y += FMath::RandRange(500.0f, -500.0f);
+	SpawnLocation.X += FMath::RandRange(700.0f, -700.0f);
+	SpawnLocation.Y += FMath::RandRange(700.0f, -700.0f);
 
-	GetWorld()->SpawnActor<ACoin>(SpawnLocation, SpawnRotation);
+	GetWorld()->SpawnActor<AMyCoin>(Coin, SpawnLocation, SpawnRotation);
 }
 
