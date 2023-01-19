@@ -24,7 +24,8 @@ protected:
 
 	UPROPERTY()
 		UUserWidget* CurrentWidget;
+
+	class UTextBlock* PressRKeyTextBlock;
+
 };
-
-
 

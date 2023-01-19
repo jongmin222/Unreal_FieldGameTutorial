@@ -15,12 +15,12 @@ public:
 	// Sets default values for this character's properties
 	AMyCharacter();
 
-protected:
+
+public:	
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
 
-public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -36,10 +36,8 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 		float MaxAmmo;
 
-	UPROPERTY(EditAnywhere, Category = "Widget")
-		TSubclassOf<class UUserWidget> WidgetClass;
 
-	UPROPERTY()
+	UPROPERTY(EditAnywhere)
 		class UUserWidget* Widget;
 
 };

@@ -4,6 +4,9 @@
 #include "FieldGameTutorialCharacter.h"
 #include "UObject/ConstructorHelpers.h"
 #include <Blueprint/UserWidget.h>
+#include "TimerManager.h"
+#include "Blueprint/WidgetTree.h"
+#include "Components/TextBlock.h"
 
 AFieldGameTutorialGameMode::AFieldGameTutorialGameMode()
 {
@@ -36,5 +39,11 @@ void AFieldGameTutorialGameMode::ChangeMenuWidget(TSubclassOf<UUserWidget> NewWi
 		{
 			CurrentWidget->AddToViewport();		
 		}	
+	}
+
+	PressRKeyTextBlock = CurrentWidget->WidgetTree->FindWidget<UTextBlock>("PressRKey");
+	if (PressRKeyTextBlock != nullptr)
+	{
+		PressRKeyTextBlock->SetOpacity(0.2f);
 	}
 }

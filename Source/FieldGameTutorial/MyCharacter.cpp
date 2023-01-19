@@ -14,22 +14,18 @@ AMyCharacter::AMyCharacter()
 	Energy = 1.0f;
 	Ammo = 25;
 	MaxAmmo = 25;
-	if (IsValid(WidgetClass))
-	{	
-		Widget = Cast<UUserWidget>(WidgetClass);
-		if (Widget != nullptr)
-		{
-			Widget->AddToViewport(9999);
-		}
-	}
-
 }
 
 // Called when the game starts or when spawned
 void AMyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	if (Widget != nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("AddToViewport"));
+		Widget->AddToViewport();
+	}
 }
 
 // Called every frame
