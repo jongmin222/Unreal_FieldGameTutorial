@@ -12,7 +12,7 @@ AItemSpawner::AItemSpawner()
 	PrimaryActorTick.bCanEverTick = true;
 
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("DefaultSceneRoot"));
-
+	RootComponent->SetMobility(EComponentMobility::Static);
 }
 
 // Called when the game starts or when spawned
@@ -38,6 +38,9 @@ void AItemSpawner::SpawnItem()
 	SpawnLocation.X += FMath::RandRange(700.0f, -700.0f);
 	SpawnLocation.Y += FMath::RandRange(700.0f, -700.0f);
 
-	GetWorld()->SpawnActor<AMyCoin>(Coin, SpawnLocation, SpawnRotation);
+	AMyCoin* CurrentCoin = GetWorld()->SpawnActor<AMyCoin>(Coin, SpawnLocation, SpawnRotation);
+	if (CurrentCoin != nullptr)
+	{
+		CurrentCoin->AttachToActor(this, FAttachmentTransformRules::KeepWorldTransform);
+	}
 }
-
