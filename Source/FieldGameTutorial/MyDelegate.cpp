@@ -6,13 +6,14 @@
 AMyDelegate::AMyDelegate()
 {
 	PrimaryActorTick.bCanEverTick = true;
-
+	UE_LOG(LogTemp, Warning, TEXT("Constructor"));
 }
 
 void AMyDelegate::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	UE_LOG(LogTemp, Warning, TEXT("BeginPlay"));
+
 	Fuc_DeleSingle.BindUFunction(this, FName("CallDeleFunc_Single"));
 	Fuc_DeleSingle_OneParam.BindUFunction(this, FName("CallDeleFunc_Single_OneParam"));
 
@@ -35,12 +36,29 @@ void AMyDelegate::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	Super::EndPlay(EndPlayReason);
 
+	UE_LOG(LogTemp, Warning, TEXT("EndPlay"));
+
 	//델리게이트 해제
 	Fuc_DeleSingle.Unbind();
 	Fuc_DeleSingle_OneParam.Unbind();
 
 	Fuc_DeleMulti.Clear();
 	Fuc_DeleMulti_OneParam.Clear();
+}
+
+//
+void AMyDelegate::PostActorCreated()
+{
+	Super::PostActorCreated();
+	UE_LOG(LogTemp, Warning, TEXT("PostActorCreated"));
+}
+
+//액터가 에디터에 생성 시 호출
+void AMyDelegate::OnConstruction(const FTransform & Transform)
+{
+	Super::OnConstruction(Transform);
+
+	UE_LOG(LogTemp, Warning, TEXT("OnConstruction"));
 }
 
 void AMyDelegate::PrintInfo()

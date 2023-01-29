@@ -17,7 +17,18 @@ public:
 
 protected:
 	// Called when the game starts or when spawned
+	virtual void PostActorCreated() override;
+	virtual void OnConstruction(const FTransform& Transform) override;
+	virtual void PreInitializeComponents() override;
+	//virtual void InitializeComponent() override;
+	virtual void PostInitializeComponents() override;
+
 	virtual void BeginPlay() override;
+
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+
+	virtual void BeginDestroy() override;
+	virtual void FinishDestroy() override;
 
 public:	
 	// Called every frame
